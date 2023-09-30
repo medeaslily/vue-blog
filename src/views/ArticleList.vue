@@ -1,10 +1,11 @@
 <template>
   <div class="article-list">
+    ArticleList
   </div>
 </template>
 <script>
 export default {
-  name: 'article-page'
+  name: 'ArticleList'
 }
 </script>
 <style>

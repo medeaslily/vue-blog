@@ -1,20 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Column from "@/views/Column/index.vue";
-import Article from "@/views/Article/index.vue";
-import ArticleList from "@/views/ArticleList/index.vue";
+
+// 导入视图组件
+const Home = () => import('@/views/Layout.vue')
+const ArticleList = () => import('@/views/ArticleList.vue')
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    component: () => import('@/views/Layout.vue'),
+    name: 'Home',
+    redirect: '/index',
+    component: Home,
     children: [
-      { path: '/', redirect: '/article/list' },
-      { path: '/column', component: Column },
-      { path: '/article/:id', component: Article },
-      { path: '/article/list', component: ArticleList }
+      {path: '/index', name: 'index', component: ArticleList}
     ]
   },
 ]

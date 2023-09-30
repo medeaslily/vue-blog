@@ -6,7 +6,7 @@
 
         <el-row class="blog-header--wrap"
                 type="flex"
-                justify="space-between"
+                justify="center"
                 align="center">
           <el-col :span="2"
                   :xs="{span:24}"
@@ -37,9 +37,7 @@
           </el-col>
           <el-col :span="4"
                   class="hidden-xs-only">
-            <div class="blog-header--login">
-              <span @click="refreshModal('login')">登录</span>/ <span @click="refreshModal('register')">注册</span>
-            </div>
+<!--            <component :is="loginCompantent"></component>-->
           </el-col>
         </el-row>
 
@@ -55,17 +53,20 @@
                  class="blog-footer">底部</el-footer>
     </el-container>
     <BaseModal></BaseModal>
+    <Live2dView></Live2dView>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 
-import BaseModal from "@/components/base/BaseModal.vue";
+import BaseModal from "@/components/base/BaseModal.vue"
+import Live2dView from "@/components/Live2d.vue";
 
 export default {
   name: 'layout-page',
   components: {
+    Live2dView,
     BaseModal
   },
   data () {
@@ -81,6 +82,11 @@ export default {
         resource: '',
         desc: ''
       }
+    }
+  },
+  computed: {
+    loginCompantent() {
+      return this.$store.state.token ? 'UserImgAvatar' : 'UserLoginHead'
     }
   },
   methods: {

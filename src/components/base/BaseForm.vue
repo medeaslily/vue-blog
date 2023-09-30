@@ -2,8 +2,8 @@
   <el-form class="form"
            :model="form"
            :rules="rules"
-           ref="form"
-           :hide-required-asterisk="true">
+           :hide-required-asterisk="true"
+           ref="elForm">
     <el-form-item v-for="item in formData"
                   :key="item.query"
                   :label="item.label"
@@ -25,18 +25,31 @@ export default {
     formData: {type: Array}
   },
   computed: {
-    form() {
-      return this.formData.reduce((acc, cur) => {
-        acc[cur.query] = ''
-        return acc
-      }, {})
-    },
     rules() {
       // 得到当前type所有表单控件的标识queries
       // 求出queries与规则集MODAL_RULES的交集
       // 按照element表单验证格式要求把交集转为对象
       const queries = this.formData.map(item => item.query)
       return Object.fromEntries(Object.entries(MODAL_RULES).filter(([key]) => queries.includes(key)))
+    }
+  },
+  data() {
+    return {
+      form: {
+      }
+    }
+  },
+  methods: {
+    initForm() {
+      this.form = this.formData.reduce((acc, cur) => {
+        acc[cur.query] = ''
+        return acc
+      }, {})
+    }
+  },
+  watch: {
+    formData () {
+      this.initForm()
     }
   },
 }

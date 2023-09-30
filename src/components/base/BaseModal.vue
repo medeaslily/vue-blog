@@ -3,7 +3,7 @@
              :visible.sync="isShow"
              :width="width"
              :before-close="close">
-    <BaseForm ref="formWrapper" :form-data="formData"></BaseForm>
+    <BaseForm ref="form" :form-data="formData"></BaseForm>
     <div slot="footer"
          class="dialog-footer">
       <el-button v-for="btn in btns"
@@ -59,12 +59,20 @@ export default {
       this[handler] && this[handler]()
     },
     submitForm(){
-      this.$refs.formWrapper.$refs.form.validate((valid) => {
-        valid ? console.log('提交成功')   : console.log('提交失败')
+      let refForm = this.$refs['form']
+      refForm.$refs['elForm'].validate(async (valid) => {
+        if (valid) {
+          let res = await this.$api({ type: this.type, data: refForm.form })
+          console.log(res)
+        } else {
+          console.log('提交失败')
+          return false
+        }
       })
     },
     close() {
-      this.$refs.formWrapper.$refs.form.resetFields()
+      let elForm = this.$refs['form'].$refs['elForm']
+      elForm.resetFields()
       this.$store.dispatch('modal/close')
     }
   }
