@@ -7,7 +7,7 @@ const { PUBKEY_NAME } = base
 export default
   async function encrypt (value) {
   let key = store.get(PUBKEY_NAME)
-  try {
+    try {
     if (!key || key === 'undefined') {
       let result = await service.get('/keys')
       key = result.pubKey

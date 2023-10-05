@@ -1,3 +1,4 @@
+// 所有表单验证项目
 export default {
   username: [
     { required: true, message: '账号必填', trigger: 'blur' },

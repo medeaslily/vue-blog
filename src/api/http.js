@@ -1,6 +1,6 @@
 import service from '@/api/common'
 import vuex from '@/store'
-import store from '@/store'
+import store from 'store'
 import API_LIST from '@/config/api.config'
 import base from '@/config/base.config'
 import encrypt from '@/util/encrypt'
@@ -17,13 +17,12 @@ export default async function Http ({ type, data }) {
       let restSymbol = url.match(/:(.*)$/)[1]
       url = url.replace(/:(.*)$/, data[restSymbol])
     }
+
     if (rsaKey && data[rsaKey]) {
       data[rsaKey] = await encrypt(data[rsaKey])
     }
     data = method === 'get' ? { params: data } : data
-
     let result = await service[method](url, data)
-
     if (setToken) {
       let token = result.token;
       let uid = result.userId
@@ -37,8 +36,11 @@ export default async function Http ({ type, data }) {
     if (error.response) {
       let message = error.response.data.message
       if (!noMessage) {
-        console.log(message)
-        // new Message(message).danger()
+        //http函数作为插件挂载到了 Vue的prototype上 this指向vue实例
+        this.$notify.error({
+          title: '错误',
+          message
+        })
       }
     }
     return Promise.reject(error);
